@@ -355,7 +355,7 @@ def BuildOmniSharp():
     sys.exit( 'msbuild or xbuild is required to build Omnisharp' )
 
   os.chdir( p.join( DIR_OF_THIS_SCRIPT, 'third_party', 'OmniSharpServer' ) )
-  subprocess.check_call( [ build_command, '/property:Configuration=Release' ] )
+  subprocess.check_call( [ build_command, '/property:Configuration=Release', '/property:Platform=Any CPU' ] )
 
 
 def BuildGoCode():

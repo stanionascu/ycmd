@@ -64,3 +64,15 @@ set PATH=C:\Program Files\Rust\bin;%PATH%
 
 rustc -Vv
 cargo -V
+
+appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip
+7z x ninja-win.zip -oC:\Ninja > nul
+set PATH=%PATH%;C:\Ninja
+
+if %msvc% == 14 (
+  if %arch% == 64 (
+    call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
+  ) else (
+    call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
+  )
+)

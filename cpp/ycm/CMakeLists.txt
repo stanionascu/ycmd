@@ -118,13 +118,12 @@ if ( USE_CLANG_COMPLETER AND
   # folder name the archive produced. It isn't the archive base name.
   # On Windows, the find command is not available so we directly set the path.
   if ( WIN32 )
+    set( PATH_TO_LLVM_ROOT "${CMAKE_CURRENT_BINARY_DIR}/.." )
     # Since 7-zip release version 15.12, files are not anymore extracted in
     # $_OUTDIR folder but directly to the root. So, we check the existence of
     # $_OUTDIR to appropriately set PATH_TO_LLVM_ROOT.
-    if ( EXISTS ${CMAKE_CURRENT_BINARY_DIR}/../$_OUTDIR )
-      set( PATH_TO_LLVM_ROOT ${CMAKE_CURRENT_BINARY_DIR}/../$_OUTDIR )
-    else()
-      set( PATH_TO_LLVM_ROOT ${CMAKE_CURRENT_BINARY_DIR}/.. )
+    if ( EXISTS "${PATH_TO_LLVM_ROOT}/$_OUTDIR" )
+      set( PATH_TO_LLVM_ROOT "${PATH_TO_LLVM_ROOT}/$_OUTDIR" )
     endif()
   else()
     execute_process( COMMAND
@@ -319,6 +318,7 @@ if( LIBCLANG_TARGET )
       TARGET ${PROJECT_NAME}
       POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy "${PATH_TO_LLVM_ROOT}/bin/libclang.dll" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+      VERBATIM
     )
   else()
     add_custom_command(
